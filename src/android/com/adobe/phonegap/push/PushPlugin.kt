@@ -115,6 +115,17 @@ class PushPlugin : CordovaPlugin() {
                 additionalData.put(key, extras.getBoolean(PushConstants.DISMISSED))
               }
 
+              key == PushConstants.PUSH_BUNDLE -> {
+                extras.getBundle(key)?.apply {
+                  val i = keySet().iterator()
+                  while (i.hasNext()) {
+                    val k = i.next()
+                    val v = this[k]
+                    additionalData.put(k, v)
+                  }
+                }
+              }
+
               value is String -> {
                 try {
                   // Try to figure out if the value is another JSON object
